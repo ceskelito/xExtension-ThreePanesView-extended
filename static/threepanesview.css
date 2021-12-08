@@ -14,7 +14,7 @@
         height: calc(100% - 48px);
     }
 
-    #threepanesviewcontainer > div
+    #threepanesviewcontainer > *
     {
         box-sizing: border-box;
         width: 50%;
