@@ -88,15 +88,31 @@
                 scrollMode: "if-needed"
             });
 
+            var articleId = articleElement.getAttribute("id");
+            var articleContent = articleElement.querySelector(".flux_content").innerHTML;
+
             // Each skin might have a different background color for the content than the #global
             // node which is the parent they share with this extension container.
             // As  we want to keep the same display, we need to copy it.
-            var contentStyles = window.getComputedStyle(articleElement);
-            panelContent.style.backgroundColor = contentStyles.backgroundColor;
-            panelContent.style.backgroundImage = contentStyles.backgroundImage;
-            panelContent.style.color = contentStyles.color;
+            // We also want it to be applied on hover, so we create a scoped CSS style instead of
+            // applying it directly to the style attribute.
+            var contentStyles = window.getComputedStyle(articleElement);            
+            
+            // Use "!important" since some themes use it… Also use a prefix with the article id
+            // since scoped styles are not supported by every browser.
+           articleContent = `<style scoped>
+                #threepanesview > #${articleId},
+                #threepanesview > #${articleId}:hover
+                {
+                    background-color: ${contentStyles.backgroundColor} !important;
+                    background-image: ${contentStyles.backgroundImage} !important;
+                    color: ${contentStyles.color} !important;
+                }
+            </style>
+            ${articleContent}
+            `;
 
-            setContent(articleElement.querySelector(".flux_content").innerHTML, articleElement.getAttribute("id"));
+            setContent(articleContent, articleId);
 
             // We need to replace every id (and reference to it) by a new one to avoid duplicates.
             panelContent.querySelectorAll("[id]").forEach(function(node) {
