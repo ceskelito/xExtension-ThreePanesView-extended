@@ -153,7 +153,9 @@
             }
 
             // Legacy: deal with older FreshRSS versions without 'openArticle' event.
-            if (!window.freshrssOpenArticleEvent) {
+            // Do not use `window.freshrssOpenArticleEvent`, it is not available on `window` since
+            // https://github.com/FreshRSS/FreshRSS/commit/b438d8bb3d4b3dea6d28d0b0c73da9393c9d8299#diff-86db6bc50f24e839f927bdd2262ce6d58c450fb23b13f8e9e5501b047add9bba
+            if (typeof freshrssOpenArticleEvent === "undefined") {
                 var closestArticle = event.target.closest(".flux");
 
                 if (closestArticle && stream.contains(closestArticle))
