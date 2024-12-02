@@ -89,18 +89,30 @@
             });
 
             var articleId = articleElement.getAttribute("id");
-            var articleContent = articleElement.querySelector(".flux_content").innerHTML;
+
+            // Header element and its attributes must also be copied for the share button to work.
+            var articleHeaderElement = articleElement.querySelector(".flux_header");
+            var articleContentElement = articleElement.querySelector(".flux_content");
+
+            // outerHTML does not copy the data-* attributes.
+            var articleHeaderDatasetAttributes = "";
+            for (var ds in articleHeaderElement.dataset) {
+                articleHeaderDatasetAttributes += `ds="${articleHeaderElement.dataset[ds]}" `
+            }
+
+            var actualArticleHeader = articleHeaderElement.outerHTML.replace('>', `${articleHeaderDatasetAttributes}>`);
+            var actualArticleContent = articleContentElement.innerHTML;
 
             // Each skin might have a different background color for the content than the #global
             // node which is the parent they share with this extension container.
             // As  we want to keep the same display, we need to copy it.
             // We also want it to be applied on hover, so we create a scoped CSS style instead of
             // applying it directly to the style attribute.
-            var contentStyles = window.getComputedStyle(articleElement);            
-            
+            var contentStyles = window.getComputedStyle(articleElement);
+
             // Use "!important" since some themes use it… Also use a prefix with the article id
             // since scoped styles are not supported by every browser.
-           articleContent = `<style scoped>
+            setContent(`<style scoped>
                 #threepanesview > #${articleId},
                 #threepanesview > #${articleId}:hover
                 {
@@ -109,10 +121,9 @@
                     color: ${contentStyles.color} !important;
                 }
             </style>
-            ${articleContent}
-            `;
-
-            setContent(articleContent, articleId);
+            ${actualArticleHeader}
+            ${actualArticleContent}
+            `, articleId);
 
             // We need to replace every id (and reference to it) by a new one to avoid duplicates.
             panelContent.querySelectorAll("[id]").forEach(function(node) {

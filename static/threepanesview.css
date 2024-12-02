@@ -56,12 +56,17 @@
         background-color: transparent;
     }
 
+    #threepanesview > .flux > .flux_header
+    {
+        display: none !important;
+    }
+
     #threepanesview > .flux > .content
     {
         min-height: 0;
         flex-shrink: 0;
         flex-grow: 1;
-    }    
+    }
 
     #threepanesview > .flux > .horizontal-list
     {
@@ -99,7 +104,7 @@
         overflow: hidden;
     }
 
-    /* Specific to nord theme */ 
+    /* Specific to nord theme */
     #threepanesview > .flux > .content .website .favicon
     {
         position: initial;
