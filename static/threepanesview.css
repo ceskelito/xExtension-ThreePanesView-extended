@@ -27,6 +27,17 @@
         max-width: initial;
     }
 
+    /* See https://framagit.org/nicofrand/xextension-threepanesview/-/issues/29 */
+    #threepanesviewcontainer .transition {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #threepanesviewcontainer .transition > * {
+        position: unset;
+    }
+
     body:not(.reader) #stream
     {
         resize: horizontal;
