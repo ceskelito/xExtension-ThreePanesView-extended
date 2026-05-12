@@ -1,3 +1,11 @@
+ORIGINAL EXTENSION: https://framagit.org/nicofrand/xextension-threepanesview
+
+This is an extended version from the original extension.
+
+It add the following features:
+- Resizable panes
+- [TODO] Possibility to switch the reading and the stream pane
+
 # ThreePanesView
 
 Adds a third vertical pane along the articles list, to display the articles content
